@@ -9,8 +9,16 @@ public class StringUnpacker {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Введите строку");
-        String str = scanner.next();
+        String str = null;
+        boolean isValid;
+        do {
+            System.out.println("Введите строку");
+            str = scanner.next();
+            isValid = isValid(str);
+            if (!isValid) {
+                System.out.println("Не верный формат строки");
+            }
+        } while (!isValid);
         System.out.println(unpack(str));
     }
 
@@ -59,31 +67,32 @@ public class StringUnpacker {
         }
     }
 
-//    public static boolean isValid(String str) {
-//
-//        int iterations = 0;
-//        StringBuilder newStr = new StringBuilder(str);
-//        Matcher matcher = Pattern.compile("\\d+\\[\\w+\\]").matcher(newStr);
-//
-//
-//        List<String> blocks = new ArrayList<>();
-//        while (matcher.find()) {
-//            blocks.add(matcher.group());
-//        }
-//
-//        for (String s : blocks) {
-//            newStr.replace(str.indexOf(s), str.indexOf(s)
-//                    + s.length(), "");
-//            iterations++;
-//        }
-//
-//        if (newStr.toString().matches("[a-zA-Z]+")) {
-//            return true;
-//        } else if (iterations == 0) {
-//            return false;
-//        } else if (iterations != 0) {
-//            return isValid(str);
-//        }
-//        return false;
-//    }
+    public static boolean isValid(String str) {
+
+        if (str.equals("")){return false;}
+
+        int iterations = 0;
+        StringBuilder newStr = new StringBuilder(str);
+        Matcher matcher = Pattern.compile("\\d+\\[\\w+\\]").matcher(newStr);
+
+
+        List<String> blocks = new ArrayList<>();
+        while (matcher.find()) {
+            blocks.add(matcher.group());
+        }
+
+        for (String s : blocks) {
+            newStr.replace(newStr.indexOf(s), newStr.indexOf(s) + s.length(), "");
+            iterations++;
+        }
+
+        if (newStr.toString().matches("[a-zA-Z]+") || newStr.toString().equals("")) {
+            return true;
+        } else if (iterations == 0) {
+            return false;
+        } else if (iterations != 0) {
+            return isValid(newStr.toString());
+        }
+        return false;
+    }
 }
