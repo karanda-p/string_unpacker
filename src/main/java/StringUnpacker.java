@@ -18,7 +18,7 @@ public class StringUnpacker {
             if (!isValid) {
                 System.out.println("Не верный формат строки");
             }
-        } while (isValid);
+        } while (!isValid);
         System.out.println(unpack(str));
     }
 
